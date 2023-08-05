@@ -247,7 +247,7 @@ export class FirebaseTokenVerifier {
       const rs256Token = this.safeDecode(token, isEmulator, currentTimestamp);
       const { payload } = rs256Token.decodedToken;
 
-      this.verifyPayload(payload, currentTimestamp);
+      this.verifyPayload(payload);
       await this.verifySignature(rs256Token, isEmulator);
 
       return payload;
@@ -277,7 +277,7 @@ export class FirebaseTokenVerifier {
 
   private verifyPayload(
     tokenPayload: DecodedPayload,
-    currentTimestamp: number
+    // currentTimestamp: number
   ): asserts tokenPayload is FirebaseIdToken {
     const payload = tokenPayload;
 
@@ -406,5 +406,5 @@ export function createFirebaseTokenVerifier(
   signatureVerifier: SignatureVerifier,
   projectID: string
 ): FirebaseTokenVerifier {
-  return new FirebaseTokenVerifier(signatureVerifier, projectID, 'https://securetoken.google.com/', ID_TOKEN_INFO);
+  return new FirebaseTokenVerifier(signatureVerifier, projectID, 'https://firebaseappcheck.googleapis.com/', ID_TOKEN_INFO);
 }
