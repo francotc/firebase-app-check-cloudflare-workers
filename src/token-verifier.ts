@@ -294,18 +294,18 @@ export class FirebaseTokenVerifier {
     if (payload.aud !== this.projectId && payload.aud !== FIREBASE_AUDIENCE) {
       throw createInvalidArgument(
         `${this.tokenInfo.jwtName} has incorrect "aud" (audience) claim. ` +
-          makeExpectedbutGotMsg(this.projectId, payload.aud) +
-          projectIdMatchMessage +
-          verifyJwtTokenDocsMessage
+        makeExpectedbutGotMsg(this.projectId, payload.aud) +
+        projectIdMatchMessage +
+        verifyJwtTokenDocsMessage
       );
     }
 
     if (payload.iss !== this.issuer + this.projectId) {
       throw createInvalidArgument(
         `${this.tokenInfo.jwtName} has incorrect "iss" (issuer) claim. ` +
-          makeExpectedbutGotMsg(this.issuer, payload.iss) +
-          projectIdMatchMessage +
-          verifyJwtTokenDocsMessage
+        makeExpectedbutGotMsg(this.issuer, payload.iss) +
+        projectIdMatchMessage +
+        verifyJwtTokenDocsMessage
       );
     }
 
@@ -364,7 +364,7 @@ export class FirebaseTokenVerifier {
 
 // URL containing the public keys for the Google certs (whose private keys are used to sign Firebase
 // Auth ID tokens)
-const CLIENT_JWK_URL = 'https://www.googleapis.com/robot/v1/metadata/jwk/securetoken@system.gserviceaccount.com';
+const CLIENT_JWK_URL = 'https://firebaseappcheck.googleapis.com/v1/jwks';
 
 /**
  * Interface that defines token related user facing information.

@@ -1,8 +1,11 @@
 {
-  "name": "firebase-auth-cloudflare-workers",
+  "name": "firebase-app-check-cloudflare-workers",
   "version": "1.0.0",
-  "description": "Zero-dependencies firebase auth library for Cloudflare Workers.",
-  "author": "codehex",
+  "description": "Zero-dependencies firebase app check library for Cloudflare Workers.",
+  "repository": {
+    "url": "git+https://github.com/francotc/firebase-app-check-cloudflare-workers.git"
+  },
+  "author": "francotc - codehex",
   "license": "MIT",
   "main": "dist/main/index.js",
   "typings": "dist/main/index.d.ts",
@@ -55,6 +58,6 @@
     "workers"
   ],
   "bugs": {
-    "url": "https://github.com/Code-Hex/firebase-auth-cloudflare-workers/issues"
+    "url": "https://github.com/francotc/firebase-app-check-cloudflare-workers/issues"
   }
 }
