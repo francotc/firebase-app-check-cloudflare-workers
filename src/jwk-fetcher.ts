@@ -17,7 +17,7 @@ const isJWKMetadata = (value: any): value is JWKMetadata =>
  * Class to fetch public keys from a client certificates URL.
  */
 export class UrlKeyFetcher implements KeyFetcher {
-  constructor(private readonly fetcher: Fetcher, private readonly keyStorer: KeyStorer) {}
+  constructor(private readonly fetcher: Fetcher, private readonly keyStorer: KeyStorer) { }
 
   /**
    * Fetches the public keys for the Google certs.
@@ -45,34 +45,12 @@ export class UrlKeyFetcher implements KeyFetcher {
       throw new Error(`The public keys are not an object or null: "${publicKeys}`);
     }
 
-    const cacheControlHeader = resp.headers.get('cache-control');
-
     // store the public keys cache in the KV store.
-    const maxAge = parseMaxAge(cacheControlHeader);
-    if (!isNaN(maxAge)) {
-      await this.keyStorer.put(JSON.stringify(publicKeys.keys), maxAge);
-    }
+    await this.keyStorer.put(JSON.stringify(publicKeys.keys), 1296000);
 
     return publicKeys.keys;
   }
 }
-
-// parseMaxAge parses Cache-Control header and returns max-age value as number.
-// returns NaN when Cache-Control header is none or max-age is not found, the value is invalid.
-export const parseMaxAge = (cacheControlHeader: string | null): number => {
-  if (cacheControlHeader === null) {
-    return NaN;
-  }
-  const parts = cacheControlHeader.split(',');
-  for (const part of parts) {
-    const subParts = part.trim().split('=');
-    if (subParts[0] !== 'max-age') {
-      continue;
-    }
-    return Number(subParts[1]); // maxAge is a seconds value.
-  }
-  return NaN;
-};
 
 export interface Fetcher {
   fetch(): Promise<Response>;
