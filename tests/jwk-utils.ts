@@ -5,7 +5,7 @@ import type { DecodedHeader, DecodedPayload, JsonWebKeyWithKid } from '../src/jw
 import { utf8Encoder } from '../src/utf8';
 
 export class TestingKeyFetcher implements KeyFetcher {
-  constructor(public readonly kid: string, private readonly keyPair: CryptoKeyPair) {}
+  constructor(public readonly kid: string, private readonly keyPair: CryptoKeyPair) { }
 
   public static async withKeyPairGeneration(kid: string): Promise<TestingKeyFetcher> {
     const keyPair = await crypto.subtle.generateKey(rs256alg, true, ['sign', 'verify']);
@@ -23,7 +23,7 @@ export class TestingKeyFetcher implements KeyFetcher {
 }
 
 export const genTime = (ms: number = Date.now()): number => Math.floor(ms / 1000);
-export const genIss = (projectId: string = 'projectId1234'): string => 'https://securetoken.google.com/' + projectId;
+export const genIss = (projectId: string = 'projectId1234'): string => 'https://firebaseappcheck.googleapis.com/' + projectId;
 
 export const encodeObjectBase64Url = (obj: any): string => encodeBase64Url(jsonUTF8Stringify(obj));
 

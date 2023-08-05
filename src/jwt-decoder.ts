@@ -1,7 +1,7 @@
 import { decodeBase64Url } from './base64';
 import { JwtError, JwtErrorCode } from './errors';
 import { utf8Decoder, utf8Encoder } from './utf8';
-import { isNonEmptyString, isNumber, isString } from './validator';
+import { isNonEmptyArray, isNonEmptyString, isNumber, isString } from './validator';
 
 export interface TokenDecoder {
   decode(token: string): Promise<RS256Token>;
@@ -28,7 +28,7 @@ export type DecodedToken = {
 };
 
 export class RS256Token {
-  constructor(private rawToken: string, public readonly decodedToken: DecodedToken) {}
+  constructor(private rawToken: string, public readonly decodedToken: DecodedToken) { }
   /**
    *
    * @param token - The JWT to verify.
@@ -74,14 +74,18 @@ const decodeHeader = (headerPart: string, skipVerifyHeader: boolean): DecodedHea
   if (isString(alg) && alg !== 'RS256') {
     throw new JwtError(JwtErrorCode.INVALID_ARGUMENT, `algorithm must be RS256 but got ${alg}`);
   }
+  const typ = header.typ;
+  if (isString(typ) && typ !== 'JWT') {
+    throw new JwtError(JwtErrorCode.INVALID_ARGUMENT, `type must be JWT but got ${typ}`);
+  }
   return header;
 };
 
 const decodePayload = (payloadPart: string, currentTimestamp: number): DecodedPayload => {
   const payload = decodeBase64JSON(payloadPart);
 
-  if (!isNonEmptyString(payload.aud)) {
-    throw new JwtError(JwtErrorCode.INVALID_ARGUMENT, `"aud" claim must be a string but got "${payload.aud}"`);
+  if (!isNonEmptyArray(payload.aud)) {
+    throw new JwtError(JwtErrorCode.INVALID_ARGUMENT, `"aud" claim must be a array but got "${payload.aud}"`);
   }
 
   if (!isNonEmptyString(payload.sub)) {

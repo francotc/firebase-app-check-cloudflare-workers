@@ -128,7 +128,7 @@ export interface FirebaseIdToken {
    * The issuer identifier for the issuer of the response.
    *
    * This value is a URL with the format
-   * `https://securetoken.google.com/<PROJECT_ID>`, where `<PROJECT_ID>` is the
+   * `https://firebaseappcheck.googleapis.com/<PROJECT_ID>`, where `<PROJECT_ID>` is the
    * same project ID specified in the [`aud`](#aud) property.
    */
   iss: string;
@@ -291,7 +291,7 @@ export class FirebaseTokenVerifier {
     const createInvalidArgument = (errorMessage: string) =>
       new FirebaseAuthError(AuthClientErrorCode.INVALID_ARGUMENT, errorMessage);
 
-    if (payload.aud !== this.projectId && payload.aud !== FIREBASE_AUDIENCE) {
+    if (!payload.aud.includes(`projects/${this.projectId}`) && !payload.aud.includes(`projects/${FIREBASE_AUDIENCE}`)) {
       throw createInvalidArgument(
         `${this.tokenInfo.jwtName} has incorrect "aud" (audience) claim. ` +
         makeExpectedbutGotMsg(this.projectId, payload.aud) +
@@ -315,16 +315,6 @@ export class FirebaseTokenVerifier {
       );
     }
 
-    // check auth_time claim
-    if (typeof payload.auth_time !== 'number') {
-      throw createInvalidArgument(`${this.tokenInfo.jwtName} has no "auth_time" claim. ` + verifyJwtTokenDocsMessage);
-    }
-
-    if (currentTimestamp < payload.auth_time) {
-      throw createInvalidArgument(
-        `${this.tokenInfo.jwtName} has incorrect "auth_time" claim. ` + verifyJwtTokenDocsMessage
-      );
-    }
   }
 
   private async verifySignature(token: RS256Token, isEmulator: boolean): Promise<void> {

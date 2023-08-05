@@ -196,7 +196,7 @@ export class PrefixedFirebaseError extends FirebaseError {
 export class FirebaseAuthError extends PrefixedFirebaseError {
   constructor(info: ErrorInfo, message?: string) {
     // Override default message if custom message provided.
-    super('auth', info.code, message || info.message);
+    super('app-check', info.code, message || info.message);
 
     /* tslint:disable:max-line-length */
     // Set the prototype explicitly. See the following link for more details:

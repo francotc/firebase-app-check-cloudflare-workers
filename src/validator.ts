@@ -80,6 +80,17 @@ export function isArray<T>(value: any): value is T[] {
   return Array.isArray(value);
 }
 
+
+/**
+ * Validates that a value is not an empty array.
+ *
+ * @param value - The value to validate.
+ * @returns Whether the value is an array or not.
+ */
+export function isNonEmptyArray<T>(value: any): value is T[] {
+  return Array.isArray(value) && value.length > 0;
+}
+
 /**
    * 
 /**
