@@ -1,6 +1,6 @@
 # firebase-auth-cloudflare-workers
 
-**Zero-dependencies** firebase auth library for Cloudflare Workers.
+**Zero-dependencies** firebase App Check library for Cloudflare Workers.
 
 - Implemented by only Web Standard API.
 - Supported UTF-8.
@@ -9,8 +9,8 @@
 ## Synopsis
 
 ```ts
-import type { EmulatorEnv } from "firebase-auth-cloudflare-workers";
-import { Auth, WorkersKVStoreSingle } from "firebase-auth-cloudflare-workers";
+import type { EmulatorEnv } from "firebase-app-check-cloudflare-workers";
+import { Auth, WorkersKVStoreSingle } from "firebase-app-check-cloudflare-workers";
 
 interface Bindings extends EmulatorEnv {
   PROJECT_ID: string
@@ -44,7 +44,7 @@ const verifyJWT = async (req: Request, env: Bindings): Promise<Response> => {
 ### wrangler.toml
 
 ```toml
-name = "firebase-auth-example"
+name = "firebase-app-check-example"
 compatibility_date = "2022-07-05"
 workers_dev = true
 
