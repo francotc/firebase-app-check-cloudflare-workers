@@ -1,6 +1,6 @@
 {
   "name": "firebase-app-check-cloudflare-workers",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Zero-dependencies firebase app check library for Cloudflare Workers.",
   "repository": {
     "url": "git+https://github.com/francotc/firebase-app-check-cloudflare-workers.git"
